@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { CharList } from './components/CharList/CharList';
+import { CharList } from './components/CharList';
 
 import './App.css';
 
