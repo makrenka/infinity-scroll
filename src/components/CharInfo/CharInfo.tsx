@@ -17,7 +17,6 @@ export const CharInfo = ({ selectedId, onModal, closeModal }: {
     const { characters } = useCharacter();
 
     const content = () => {
-        if (!selectedId) return;
         const character = characters?.results.filter((item) => item.id === selectedId)[0];
         return (
             <div className="char-info__wrapper">
@@ -55,10 +54,6 @@ export const CharInfo = ({ selectedId, onModal, closeModal }: {
             </div>
         );
     };
-
-    useEffect(() => {
-        content();
-    }, [selectedId]);
 
     return (
         <>
