@@ -4,7 +4,7 @@ import { Spinner } from "../Spinner";
 
 import './CharList.scss';
 
-export const CharList = () => {
+export const CharList = ({ onModal }: { onModal: (id: number) => void }) => {
 
     const { characters, error, fetchNextPage, hasNextPage, status } = useCharacter();
 
@@ -24,7 +24,7 @@ export const CharList = () => {
                     {characters && characters.results.map(({ id, image, name }) => (
                         <li
                             className="char-list__grid-item"
-                            // onClick={() => { onModal(character.id) }}
+                            onClick={() => { onModal(id) }}
                             key={id}
                         >
                             <img src={image} alt={name} className='char-list__grid-item-img' />

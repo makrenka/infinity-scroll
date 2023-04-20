@@ -9,6 +9,7 @@
         grid-column-gap: 20px;
         grid-row-gap: 60px;
         list-style-type: none;
+        margin-top: 60px;
 
         &-item {
             justify-self: center;
@@ -19,6 +20,7 @@
             background-color: white;
             border-radius: 10px;
             cursor: pointer;
+            animation: fadeInMove 1s ease;
 
             &-img {
                 width: 240px;
@@ -61,6 +63,17 @@
         font-weight: 600;
     }
 }
+
+@keyframes fadeInMove {
+    0% {
+        transform: translateY(100px);
+    }
+
+    100% {
+        transform: translateY(10px);
+    }
+}
+
 
 @media screen and (max-width: 1280px) {
     .char-list {
