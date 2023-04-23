@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import classNames from "classnames";
 import { HandySvg } from "handy-svg";
 

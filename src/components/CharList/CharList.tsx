@@ -1,12 +1,29 @@
+import { useEffect, useState } from "react";
+import classNames from "classnames";
+import { HandySvg } from "handy-svg";
 import InfiniteScroll from "react-infinite-scroll-component";
+
 import { useCharacter } from "../../hooks/useCharacter";
 import { Spinner } from "../Spinner";
+
+import upButton from '../../assets/img/up-arrow-button.svg';
 
 import './CharList.scss';
 
 export const CharList = ({ onModal }: { onModal: (id: number) => void }) => {
 
     const { characters, error, fetchNextPage, hasNextPage, status } = useCharacter();
+
+    const [scroll, setScroll] = useState(0);
+
+    const displayUpBtn = () => {
+        setScroll(window.scrollY);
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', displayUpBtn);
+        return () => window.removeEventListener('scroll', displayUpBtn);
+    }, []);
 
     if (status === 'loading') return <Spinner />;
 
@@ -33,6 +50,20 @@ export const CharList = ({ onModal }: { onModal: (id: number) => void }) => {
                     ))}
                 </ul>
             </InfiniteScroll>
+            <button
+                className={classNames('char-list__up-btn', { active: scroll > 400 })}
+                onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            >
+                <HandySvg
+                    src={upButton}
+                    className='char-list__up-btn-icon'
+                    width='50'
+                    height='50'
+                />
+            </button>
+            {/* <button className='char-list__pagination-toggle' onClick={this.togglePagination}>
+                {pagination ? 'Without pagination' : 'Display pagination'}
+            </button> */}
         </div>
     )
 }
