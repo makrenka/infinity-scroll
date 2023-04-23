@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { HandySvg } from "handy-svg";
 
-import { useCharacter } from "../../hooks/useCharacter";
+import { useCharacterInfinite } from "../../hooks/useCharacterInfinite";
 
 import closeBtn from '../../assets/img/close-button.svg';
 
@@ -13,7 +13,7 @@ export const CharInfo = ({ selectedId, onModal, closeModal }: {
     closeModal: () => void;
 }) => {
 
-    const { characters } = useCharacter();
+    const { characters } = useCharacterInfinite();
 
     const content = () => {
         const character = characters?.results.filter((item) => item.id === selectedId)[0];

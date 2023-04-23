@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { useInfiniteQuery } from "react-query";
 import { ResponseAPI } from "../interfaces/interfaces";
 
-export const useCharacter = () => {
-    const { data, error, fetchNextPage, status, hasNextPage } = useInfiniteQuery(
+export const useCharacterInfinite = () => {
+    const { data, error, fetchNextPage, fetchPreviousPage, status, hasNextPage } = useInfiniteQuery(
         ['characters'],
         async ({ pageParam = 1 }) => {
             const res = await fetch(`https://rickandmortyapi.com/api/character/?page=${pageParam}`);
@@ -13,6 +13,12 @@ export const useCharacter = () => {
             };
         },
         {
+            getPreviousPageParam: (firstPage: ResponseAPI) => {
+                const nextPage = firstPage.info.next ? +firstPage.info.next.split('=')[1] : 0;
+                const currentPage = nextPage - 1;
+                if (currentPage === firstPage.info.pages) return false;
+                return currentPage - 1;
+            },
             getNextPageParam: (lastPage: ResponseAPI) => {
                 const previousPage = lastPage.info.prev ? +lastPage.info.prev.split('=')[1] : 0;
                 const currentPage = previousPage + 1;
@@ -22,7 +28,6 @@ export const useCharacter = () => {
         }
     );
 
-
     const characters = useMemo(() => data?.pages.reduce((prev, page) => {
         return {
             info: page.info,
@@ -30,7 +35,14 @@ export const useCharacter = () => {
         }
     }), [data]);
 
+    const charPagination = useMemo(() => data?.pages.reduce((page) => {
+        return {
+            info: page.info,
+            results: [...page.results]
+        }
+    }), [data]);
+
     return {
-        error, fetchNextPage, status, hasNextPage, characters, data
+        error, fetchNextPage, fetchPreviousPage, status, hasNextPage, characters, data, charPagination
     };
 };

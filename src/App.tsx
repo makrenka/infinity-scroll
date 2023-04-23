@@ -15,6 +15,7 @@ function App() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState(false);
 
   const onModal = (id: number) => {
     setSelectedId(id);
@@ -29,9 +30,17 @@ function App() {
     setCurrentPage(page);
   };
 
+  const togglePagination = (pagination: boolean) => {
+    setPagination(pagination)
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
-      <CharList onModal={onModal} />
+      <CharList
+        onModal={onModal}
+        isPagination={togglePagination}
+        currentPage={currentPage}
+      />
       <CharInfo
         selectedId={selectedId}
         onModal={modalOpen}
@@ -39,6 +48,7 @@ function App() {
       />
       <Pagination
         onCurrentPage={onCurrentPage}
+        pagination={pagination}
       />
     </QueryClientProvider>
   );

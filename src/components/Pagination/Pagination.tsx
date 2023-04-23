@@ -3,7 +3,12 @@ import classNames from "classnames";
 
 import './Pagination.scss';
 
-export const Pagination = ({ onCurrentPage }: { onCurrentPage: (page: number) => void }) => {
+export const Pagination = (
+    { onCurrentPage, pagination }: {
+        onCurrentPage: (page: number) => void,
+        pagination: boolean
+    }
+) => {
     const LEFT_PAGE = 'LEFT';
     const RIGHT_PAGE = 'RIGHT';
 
@@ -87,7 +92,7 @@ export const Pagination = ({ onCurrentPage }: { onCurrentPage: (page: number) =>
     const pages = fetchPageNumbers();
 
     return (
-        <ul className="pagination">
+        <ul className={classNames("pagination", { active: pagination })}>
             {pages.map((page, index) => {
 
                 if (page === LEFT_PAGE) return (
