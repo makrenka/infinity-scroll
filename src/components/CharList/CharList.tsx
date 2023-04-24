@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { HandySvg } from "handy-svg";
-import InfiniteScroll from "react-infinite-scroll-component";
 
-import { useCharacterInfinite } from "../../hooks/useCharacterInfinite";
-import { Spinner } from "../Spinner";
 import { ContentPagination } from "./ContentPagination";
+import { ContentInfinte } from "./ContentInfinte";
 
 import upButton from '../../assets/img/up-arrow-button.svg';
 
 import './CharList.scss';
+
 
 export const CharList = (
     { onModal, isPagination, currentPage }: {
@@ -18,10 +17,6 @@ export const CharList = (
         currentPage: number
     },
 ) => {
-
-    const {
-        characters, error, fetchNextPage, hasNextPage, status
-    } = useCharacterInfinite();
 
     const [scroll, setScroll] = useState(0);
     const [pagination, setPagination] = useState(false);
@@ -43,36 +38,12 @@ export const CharList = (
         isPagination(pagination);
     });
 
-    const infiniteContent = () => (
-        <InfiniteScroll
-            dataLength={characters ? characters.results.length : 0}
-            next={() => fetchNextPage()}
-            hasMore={!!hasNextPage}
-            loader={<Spinner />}
-        >
-            <ul className="char-list__grid">
-                {characters && characters.results.map(({ id, image, name }) => (
-                    <li
-                        className="char-list__grid-item"
-                        onClick={() => { onModal(id) }}
-                        key={id}
-                    >
-                        <img src={image} alt={name} className='char-list__grid-item-img' />
-                        <p className='char-list__grid-item-title'>{name}</p>
-                    </li>
-                ))}
-            </ul>
-        </InfiniteScroll>
-    );
-
-    if (status === 'loading') return <Spinner />;
-
-    if (status === 'error') return <p>Ups!, {`${error}` as string}</p>;
-
     return (
         <div className="char-list">
             {!pagination
-                ? infiniteContent()
+                ? <ContentInfinte
+                    onModal={(id: number) => onModal(id)}
+                />
                 : <ContentPagination
                     currentPage={currentPage}
                     onModal={(id: number) => onModal(id)}

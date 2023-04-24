@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+
 import { Spinner } from "../Spinner";
 
 export const ContentPagination = ({ currentPage, onModal }: {
