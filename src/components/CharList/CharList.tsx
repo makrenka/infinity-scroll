@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import { useCharacterInfinite } from "../../hooks/useCharacterInfinite";
 import { Spinner } from "../Spinner";
+import { ContentPagination } from "./ContentPagination";
 
 import upButton from '../../assets/img/up-arrow-button.svg';
 
@@ -19,9 +20,8 @@ export const CharList = (
 ) => {
 
     const {
-        characters, error, fetchNextPage, fetchPreviousPage, hasNextPage, status, charPagination
+        characters, error, fetchNextPage, hasNextPage, status
     } = useCharacterInfinite();
-    console.log(charPagination)
 
     const [scroll, setScroll] = useState(0);
     const [pagination, setPagination] = useState(false);
@@ -42,11 +42,6 @@ export const CharList = (
     useEffect(() => {
         isPagination(pagination);
     });
-
-    // useEffect(() => {
-    //     if (currentPage > prevProps.currentPage) { fetchNextPage() };
-    //     if (currentPage < prevProps.currentPage) { fetchPreviousPage() };
-    // }, [currentPage]);
 
     const infiniteContent = () => (
         <InfiniteScroll
@@ -70,32 +65,18 @@ export const CharList = (
         </InfiniteScroll>
     );
 
-    const paginationContent = () => (
-        <ul className="char-list__grid">
-            {charPagination && charPagination.results.map(({ id, image, name }: {
-                id: number;
-                image: string;
-                name: string;
-            }) => (
-                <li
-                    className="char-list__grid-item"
-                    onClick={() => { onModal(id) }}
-                    key={id}
-                >
-                    <img src={image} alt={name} className='char-list__grid-item-img' />
-                    <p className='char-list__grid-item-title'>{name}</p>
-                </li>
-            ))}
-        </ul>
-    );
-
     if (status === 'loading') return <Spinner />;
 
     if (status === 'error') return <p>Ups!, {`${error}` as string}</p>;
 
     return (
         <div className="char-list">
-            {!pagination ? infiniteContent() : paginationContent()}
+            {!pagination
+                ? infiniteContent()
+                : <ContentPagination
+                    currentPage={currentPage}
+                    onModal={(id: number) => onModal(id)}
+                />}
             <button
                 className={classNames('char-list__up-btn', { active: scroll > 400 })}
                 onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }}

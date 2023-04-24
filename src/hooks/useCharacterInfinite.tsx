@@ -13,12 +13,6 @@ export const useCharacterInfinite = () => {
             };
         },
         {
-            getPreviousPageParam: (firstPage: ResponseAPI) => {
-                const nextPage = firstPage.info.next ? +firstPage.info.next.split('=')[1] : 0;
-                const currentPage = nextPage - 1;
-                if (currentPage === firstPage.info.pages) return false;
-                return currentPage - 1;
-            },
             getNextPageParam: (lastPage: ResponseAPI) => {
                 const previousPage = lastPage.info.prev ? +lastPage.info.prev.split('=')[1] : 0;
                 const currentPage = previousPage + 1;
@@ -35,14 +29,7 @@ export const useCharacterInfinite = () => {
         }
     }), [data]);
 
-    const charPagination = useMemo(() => data?.pages.reduce((page) => {
-        return {
-            info: page.info,
-            results: [...page.results]
-        }
-    }), [data]);
-
     return {
-        error, fetchNextPage, fetchPreviousPage, status, hasNextPage, characters, data, charPagination
+        error, fetchNextPage, fetchPreviousPage, status, hasNextPage, characters, data
     };
 };
