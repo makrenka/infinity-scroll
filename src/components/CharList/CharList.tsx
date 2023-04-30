@@ -46,7 +46,6 @@ export const CharList = (
                 />
                 : <ContentPagination
                     currentPage={currentPage}
-                    onModal={(id: number) => onModal(id)}
                 />}
             <button
                 className={classNames('char-list__up-btn', { active: scroll > 400 })}

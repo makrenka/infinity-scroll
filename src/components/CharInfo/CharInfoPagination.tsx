@@ -1,25 +1,21 @@
 import classNames from "classnames";
 import { HandySvg } from "handy-svg";
-
-import { useCharacterInfinite } from "../../hooks/useCharacterInfinite";
+import { ResponseAPI } from '../../interfaces/interfaces';
 
 import closeBtn from '../../assets/img/close-button.svg';
 
-import './CharInfo.scss';
-
-export const CharInfo = ({ selectedId, onModal, closeModal }: {
+export const CharInfoPagination = ({ selectedId, onModal, closeModal, data }: {
     selectedId: number | null;
     onModal: boolean;
     closeModal: () => void;
+    data: ResponseAPI;
 }) => {
 
-    const { characters } = useCharacterInfinite();
-
     const content = () => {
-        const character = characters?.results.filter((item) => item.id === selectedId)[0];
+        const char = data?.results.filter((item) => item.id === selectedId)[0];
         return (
             <div className="char-info__wrapper">
-                <img src={character?.image} alt="abyss" className='char-info__img' />
+                <img src={char?.image} alt="abyss" className='char-info__img' />
                 <div className='char-info__description'>
                     <table className='char-info__description-table'>
                         <tbody>
@@ -28,24 +24,24 @@ export const CharInfo = ({ selectedId, onModal, closeModal }: {
                                 <th>Origin:</th>
                             </tr>
                             <tr>
-                                <td>{character?.name}</td>
-                                <td>{character?.origin.name}</td>
+                                <td>{char?.name}</td>
+                                <td>{char?.origin.name}</td>
                             </tr>
                             <tr>
                                 <th>Status:</th>
                                 <th>Location:</th>
                             </tr>
                             <tr>
-                                <td>{character?.status}</td>
-                                <td>{character?.location.name}</td>
+                                <td>{char?.status}</td>
+                                <td>{char?.location.name}</td>
                             </tr>
                             <tr>
                                 <th>Species:</th>
                                 <th>Gender:</th>
                             </tr>
                             <tr>
-                                <td>{character?.species}</td>
-                                <td>{character?.gender}</td>
+                                <td>{char?.species}</td>
+                                <td>{char?.gender}</td>
                             </tr>
                         </tbody>
                     </table>

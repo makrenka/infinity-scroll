@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { CharList } from './components/CharList';
-import { CharInfo } from './components/CharInfo';
+import { CharInfoInfinite } from './components/CharInfo';
 import { Pagination } from './components/Pagination';
 
 import './App.css';
@@ -41,7 +41,7 @@ function App() {
         isPagination={togglePagination}
         currentPage={currentPage}
       />
-      <CharInfo
+      <CharInfoInfinite
         selectedId={selectedId}
         onModal={modalOpen}
         closeModal={closeModal}
